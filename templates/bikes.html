@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-center mb-4">Available Bikes</h2>
+<div class="row">
+    {% for bike in bikes %}
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <img src="{{ url_for('static', filename='images/' + bike.image) }}" class="card-img-top" alt="{{ bike.name }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ bike.name }} ({{ bike.model }})</h5>
+                <p class="card-text">
+                    Engine: {{ bike.engine }} <br>
+                    Price per hour: ₹{{ bike.price_per_hour }}
+                </p>
+                {% if bike.status == 'available' %}
+                    <a href="{{ url_for('book_bike', bike_id=bike.id) }}" class="btn btn-primary w-100">Book Now</a>
+                {% else %}
+                    <button class="btn btn-secondary w-100" disabled>Not Available</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

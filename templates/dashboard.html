@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-center mb-4">Welcome, {{ fullname }}</h2>
+
+
+<div class="row text-center mb-4">
+    <div class="col-md-3">
+        <div class="card p-3">
+            <h5>Total Bikes</h5>
+            <p class="display-6">{{ total_bikes }}</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3">
+            <h5>Available</h5>
+            <p class="display-6 text-success">{{ available_bikes }}</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3">
+            <h5>Rented</h5>
+            <p class="display-6 text-danger">{{ rented_bikes }}</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3">
+            <h5>Total Earnings</h5>
+            <p class="display-6 text-primary">₹{{ total_earnings }}</p>
+        </div>
+    </div>
+</div>
+
+<h3 class="mb-3">Bikes per Model</h3>
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Model</th>
+            <th>Total Bikes</th>
+            <th>Available</th>
+            <th>Rented</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for b in bikes_per_model %}
+        <tr>
+            <td>{{ b.model }}</td>
+            <td>{{ b.total_bikes }}</td>
+            <td>{{ b.available_bikes }}</td>
+            <td>{{ b.rented_bikes }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<h3 class="mb-3">Most Popular Bikes</h3>
+<ul class="list-group mb-4">
+    {% for bike in popular_bikes %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ bike.name }}
+        <span class="badge bg-dark">{{ bike.times_rented }} rentals</span>
+    </li>
+    {% endfor %}
+</ul>
+
+<h3 class="mb-3">All Bookings</h3>
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Bike</th>
+            <th>Model</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Amount (₹)</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for bo in bookings %}
+        <tr>
+            <td>{{ bo.id }}</td>
+            <td>{{ bo.user_name }}</td>
+            <td>{{ bo.bike_name }}</td>
+            <td>{{ bo.model }}</td>
+            <td>{{ bo.start_time }}</td>
+            <td>{{ bo.end_time }}</td>
+            <td>{{ bo.amount }}</td>
+            <td>
+                {% if bo.status == 'ongoing' %}
+                    <span class="text-warning">{{ bo.status }}</span>
+                {% else %}
+                    <span class="text-success">{{ bo.status }}</span>
+                {% endif %}
+            </td>
+            <td>
+    {% if bo.status == 'ongoing' %}
+        <a href="{{ url_for('return_bike', booking_id=bo.id) }}" class="btn btn-success btn-sm">Return</a>
+    {% else %}
+        Completed
+    {% endif %}
+</td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

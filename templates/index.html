@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="text-center mt-5">
+    <h1>Welcome to Motorbike Rental Management System</h1>
+    <p class="lead">Book your favorite bike easily and ride with comfort!</p>
+    {% if not session.get('loggedin') %}
+        <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg mt-3">Login</a>
+        <a href="{{ url_for('register') }}" class="btn btn-success btn-lg mt-3">Register</a>
+    {% else %}
+        <a href="{{ url_for('dashboard') }}" class="btn btn-warning btn-lg mt-3">Go to Dashboard</a>
+    {% endif %}
+</div>
+{% endblock %}
